@@ -8,14 +8,14 @@ namespace Strangler2._0.Shared
         {
             PaletteLight = new PaletteLight()
             {
-                Primary = "#0f0f0f",
-                Secondary = Colors.Green.Accent4,
-                AppbarBackground = Colors.Red.Default,
+                Primary = "#0f0f0f",  
+                Background = "#0f0f0f"
             },
 
             PaletteDark = new PaletteDark()
             {
                 Primary = "#0f0f0f",
+                Background = "#0f0f0f"
             }
 
             
