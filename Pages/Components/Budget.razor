@@ -1,40 +1,37 @@
 ﻿@page "/budget"
 
+<MudMenu PositionAtCursor="true">
+    <ActivatorContent>
+        <MudPaper Style="height: 100px; margin: 5px; border-radius: 5px; background-color: #0b2507; position: relative;">
 
-<MudPaper @oncontextmenu="OpenContextMenu" Elevation="3" Style="height: 100px; margin: 5px; border-radius: 5px;background-color: #0b2507;" @onclick="ShowContextMenu">
-    <MudStack Class="pa-4">
-        <MudText Typo="Typo.h5"
-                 Style="font-size: 25px; font-weight: 300; margin-left: 5px; color: white; vertical-align: middle;">
-            Budget
-        </MudText>
+            <MudStack Class="pa-4">
+                <MudText Typo="Typo.h5"
+                         Style="font-size: 25px; font-weight: 300; margin-left: 5px; color: white; vertical-align: middle;">
+                    Budget
+                </MudText>
 
-        <MudGrid>
-            <MudItem xs="12">
-                <MudStack Direction="Row" Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="1">
-                    <MudText Typo="Typo.h4"
-                             Style="color: white; font-weight: 400; font-size: 28px;">
-                        @CurrencySymbol
-                    </MudText>
-                    <MudText Typo="Typo.h4"
-                             Style="color: white; font-weight: 400; font-size: 28px;">
-                        @BudgetAmount
-                    </MudText>
-                </MudStack>
-            </MudItem>
-        </MudGrid>
-    </MudStack>
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudStack Direction="Row" Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="1">
+                            <MudText Typo="Typo.h4"
+                                     Style="color: white; font-weight: 400; font-size: 28px;">
+                                @CurrencySymbol
+                            </MudText>
+                            <MudText Typo="Typo.h4"
+                                     Style="color: white; font-weight: 400; font-size: 28px;">
+                                @BudgetAmount
+                            </MudText>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudStack>
 
-    <MudMenu @ref="_contextMenu"
-             AnchorOrigin="Origin.TopLeft"
-             TransformOrigin="Origin.TopLeft"
-             PositionX="@_menuX"
-             PositionY="@_menuY"
-             Open="@_menuOpen"
-             CloseMenuOnItemClick="true"
-             OnClose="() => _menuOpen = false">
+        </MudPaper>
 
-        <MudMenuItem OnClick="EditBudget">Edit Budget</MudMenuItem>
-    </MudMenu>
+    </ActivatorContent>
 
+    <ChildContent>
+        <MudMenuItem Label="Edit Budget" />        
+    </ChildContent>
+</MudMenu>
 
-</MudPaper>
