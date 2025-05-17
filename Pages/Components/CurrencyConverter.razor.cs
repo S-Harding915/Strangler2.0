@@ -1,19 +1,30 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Strangler2._0.Data.Models;
+using Strangler2._0.Services;
 
 namespace Strangler2._0.Pages.Components
 {
     public partial class CurrencyConverter
     {
+        [Inject]
+        public IBudgetService _budgetService { get; set; }
+        public List<Currency> AvailableCurrency { get; set; } = new List<Currency>();
+
         private List<string> currencies = new() { "USD", "EUR", "GBP", "INR", "JPY" };
         private string fromCurrency = "USD";
         private string toCurrency = "EUR";
         private decimal amount = 1;
         private decimal convertedAmount = 0;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            Convert();
+            this.AvailableCurrency = await _budgetService.GetAllCurrency();
         }
+
+        //protected override void OnInitialized()
+        //{
+        //    Convert();
+        //}
 
         private void Convert()
         {

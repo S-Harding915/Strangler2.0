@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using Strangler2._0.Context;
 using Strangler2._0.Data;
+using Strangler2._0.Services;
 
 
 namespace Strangler2._0
@@ -17,7 +18,7 @@ namespace Strangler2._0
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddMudServices();
-
+            builder.Services.AddScoped<IBudgetService, BudgetService>();
          
 
             //dbcontext injection
