@@ -2,27 +2,26 @@
 
 <div class="converter-container">
     <div class="row">
-        <label>From</label>
-        <select value="@fromCurrency" @onchange="OnFromCurrencyChanged" class="dropdown">
-            @foreach (var currency in currencies)
+        <MudSelect @bind-Value="SelectedFromCurrency" Label="Select From currency" Placeholder="Please select" AdornmentIcon="@Icons.Material.Filled.Fastfood" AdornmentColor="Color.Primary">
+            @foreach (var item in this.AvailableCurrency)
             {
-                <option value="@currency">@currency</option>
+                <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
             }
-        </select>
+        </MudSelect>
 
-        <button @onclick="SwapCurrencies" class="swap-btn">🔄</button>
 
-        <label>To</label>
-        <select @bind="toCurrency" class="dropdown">
-            @foreach (var currency in currencies)
+        @* <button @onclick="SwapCurrencies" class="swap-btn">🔄</button> *@
+
+        <MudSelect @bind-Value="SelectedToCurrency" Label="Select To currency" Placeholder="Please select" AdornmentIcon="@Icons.Material.Filled.Fastfood" AdornmentColor="Color.Primary">
+            @foreach (var item in this.AvailableCurrency)
             {
-                <option value="@currency">@currency</option>
+                <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
             }
-        </select>
+        </MudSelect>
     </div>
 
     <div class="flex flex-row">
-        <input type="number" @bind="Amount" class="amount-input" min="0" />
+        <MudNumericField T="string" ShrinkLabel @bind-Value="ConvertAmount" Variant="Variant.Filled"  Label="Amount"></MudNumericField>
         <span class="equal">=</span>
         <span class="converted">@convertedAmount.ToString("0.##")</span>
     </div>

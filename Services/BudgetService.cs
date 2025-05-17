@@ -13,12 +13,11 @@ namespace Strangler2._0.Services
             _dbContext = dbContext;
         }
 
-
         public async Task<List<Currency>> GetAllCurrency()
         {
             try
             {
-                using var dbContext = new BudgetDbContext(new DbContextOptions<BudgetDbContext>());
+                using var dbContext = _dbContext;
                 var result = await dbContext.Currency.ToListAsync();
 
                 return result;
