@@ -7,4 +7,8 @@
     <RootNamespace>Strangler2._0</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" Version="7.16.0" />
+  </ItemGroup>
+
 </Project>

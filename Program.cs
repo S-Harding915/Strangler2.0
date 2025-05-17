@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Services;
 using Strangler2._0.Data;
+
 
 namespace Strangler2._0
 {
@@ -14,6 +14,8 @@ namespace Strangler2._0
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddMudServices();
+
 
             var app = builder.Build();
 
