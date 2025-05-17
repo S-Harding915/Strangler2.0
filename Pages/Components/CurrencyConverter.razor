@@ -5,7 +5,7 @@
         <MudSelect @bind-Value="SelectedFromCurrency" Label="Select From currency" Placeholder="Please select" AdornmentIcon="@Icons.Material.Filled.Fastfood" AdornmentColor="Color.Primary">
             @foreach (var item in this.AvailableCurrency)
             {
-                <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+                <MudSelectItem Value="@item.Code">@item.Name</MudSelectItem>
             }
         </MudSelect>
 
@@ -15,13 +15,13 @@
         <MudSelect @bind-Value="SelectedToCurrency" Label="Select To currency" Placeholder="Please select" AdornmentIcon="@Icons.Material.Filled.Fastfood" AdornmentColor="Color.Primary">
             @foreach (var item in this.AvailableCurrency)
             {
-                <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+                <MudSelectItem Value="@item.Code">@item.Name</MudSelectItem>
             }
         </MudSelect>
     </div>
 
     <div class="flex flex-row">
-        <MudNumericField T="string" ShrinkLabel @bind-Value="ConvertAmount" Variant="Variant.Filled"  Label="Amount"></MudNumericField>
+        <MudNumericField bind-Value="ConvertAmount" Value="ConvertAmount" T="string" ShrinkLabel Variant="Variant.Filled" Label="Amount" ValueChanged="UpdateCurrency"></MudNumericField>
         <span class="equal">=</span>
         <span class="converted">@convertedAmount.ToString("0.##")</span>
     </div>

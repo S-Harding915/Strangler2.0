@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Strangler2._0.Data.Models;
 using Strangler2._0.Services;
 
@@ -9,10 +11,10 @@ namespace Strangler2._0.Pages.Components
         [Inject]
         public IBudgetService _budgetService { get; set; }
         public List<Currency> AvailableCurrency { get; set; } = new List<Currency>();
-        public string FromCurrency { get; set; }
-        public string ToCurrency { get; set; }
-        public int SelectedFromCurrency { get; set; }
-        public int SelectedToCurrency { get; set; }
+        public string FromCurrency { get; set; } = string.Empty;
+        public string ToCurrency { get; set; } = string.Empty;
+        public string SelectedFromCurrency { get; set; }
+        public string SelectedToCurrency { get; set; }
         private decimal convertedAmount = 0;
         private string ConvertAmount { get; set; }
         //private string ConvertAmount
@@ -29,7 +31,7 @@ namespace Strangler2._0.Pages.Components
         //}
 
         protected override async Task OnInitializedAsync()
-        
+
         {
             this.AvailableCurrency = await this._budgetService.GetAllCurrency();
         }
@@ -40,11 +42,29 @@ namespace Strangler2._0.Pages.Components
             public decimal Result { get; set; }
         }
 
-        private async Task UpdateCurrency()
-        {
-            string url =
-                "https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_4AVLkFJ9PdR2u80AF6laS6aE29DPbwJArc1J2zAT";
+        //"GBP": 0.0418102057,
+        //"USD": 0.0555358955,
+        //"ZAR": 1
 
+        private async Task UpdateCurrency()
+            {
+            var ratesToUSD = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "USD", 1.0m },
+                { "ZAR", 0.054m }, // 1 ZAR = 0.054 USD
+                { "EUR", 1.1m }    // 1 EUR = 1.1 USD
+                // Add more as needed
+            };
+
+            if (!ratesToUSD.ContainsKey(SelectedFromCurrency) || !ratesToUSD.ContainsKey(SelectedToCurrency))
+                throw new ArgumentException("Unsupported currency code.");
+
+            decimal usdAmount = 100 * ratesToUSD[SelectedFromCurrency]; // Convert to USD
+            decimal convertedAmount = usdAmount / ratesToUSD[SelectedToCurrency]; // Convert from USD to target
+
+            Math.Round(convertedAmount, 2);
+            this.convertedAmount = convertedAmount;
+            //this.convertedAmount = (decimal)5.54;
         }
     }
 }
