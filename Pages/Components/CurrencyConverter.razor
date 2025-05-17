@@ -1,5 +1,29 @@
 ﻿@page "/converter"
-<h1>converter</h1>
-@code {
+<div class="converter-container">
+    <div class="row">
+        <label>From</label>
+        <select @bind="fromCurrency" class="dropdown">
+            @foreach (var currency in currencies)
+            {
+                <option value="@currency">@currency</option>
+            }
+        </select>
 
-}
+        <button @onclick="SwapCurrencies" class="swap-btn">🔄</button>
+
+        <label>To</label>
+        <select @bind="toCurrency" class="dropdown">
+            @foreach (var currency in currencies)
+            {
+                <option value="@currency">@currency</option>
+            }
+        </select>
+    </div>
+
+    <div class="flex flex-row">
+        <input type="number" @bind="amount" class="amount-input" min="0" />
+        <span class="equal">=</span>
+        <span class="converted">@convertedAmount.ToString("0.##")</span>
+    </div>
+</div>
+
