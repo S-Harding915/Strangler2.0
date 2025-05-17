@@ -2,60 +2,95 @@
 
 namespace Strangler2._0.Pages.Components
 {
-    public partial class CurrencyConverter
+    public partial class CurrencyConverter : ComponentBase
     {
-        private List<string> currencies = new() { "USD", "EUR", "GBP", "INR", "JPY" };
+        private List<string> currencies = new() { "USD", "EUR", "GBP", "INR", "JPY", "CAD", "AUD", "CHF" };
         private string fromCurrency = "USD";
         private string toCurrency = "EUR";
-        private decimal amount = 1;
         private decimal convertedAmount = 0;
-
-        protected override void OnInitialized()
+        
+        private decimal _amount = 1;
+        private decimal Amount
         {
-            Convert();
-        }
-
-        private void Convert()
-        {
-            // Dummy conversion logic for demo purposes
-            var rate = GetConversionRate(fromCurrency, toCurrency);
-            convertedAmount = amount * rate;
-        }
-
-        private decimal GetConversionRate(string from, string to)
-        {
-            if (from == to) return 1m;
-
-            // Replace with actual API or logic
-            return (from, to) switch
+            get => _amount;
+            set
             {
-                ("USD", "EUR") => 0.91m,
-                ("EUR", "USD") => 1.10m,
-                ("USD", "INR") => 83.0m,
-                ("INR", "USD") => 0.012m,
-                _ => 1.0m
-            };
-        }
-
-        private void SwapCurrencies()
-        {
-            (fromCurrency, toCurrency) = (toCurrency, fromCurrency);
-            Convert();
-        }
-
-        private void OnAmountChanged(ChangeEventArgs e)
-        {
-            if (decimal.TryParse(e.Value?.ToString(), out var value))
-            {
-                amount = value;
-                Convert();
+                if (_amount != value)
+                {
+                    _amount = value;
+                    ConvertAsync();
+                }
             }
         }
 
-        // Auto convert on change
-        private void OnCurrencyChanged(ChangeEventArgs e)
+        protected override async Task OnInitializedAsync()
         {
-            Convert();
+            await ConvertAsync();
+        }
+
+        private async Task ConvertAsync()
+        {
+            if (fromCurrency == toCurrency)
+            {
+                convertedAmount = _amount;
+                return;
+            }
+
+            try
+            {
+                var url = $"https://api.exchangerate.host/convert?from={fromCurrency}&to={toCurrency}&amount={_amount}";
+                // var result = await Http.GetFromJsonAsync<ExchangeResponse>(url);
+var httpClient = new HttpClient();
+httpClient.BaseAddress = new Uri($"https://api.exchangerate.host/convert?from={fromCurrency}&to={toCurrency}&amount={_amount}");
+var result = await httpClient.GetAsync(httpClient.BaseAddress);
+
+                if (result != null && result.IsSuccessStatusCode)
+                {
+                    var v = await result.Content.ReadAsStringAsync();
+                    convertedAmount = int.Parse(v);
+                }
+                else
+                {
+                    convertedAmount = 0;
+                }
+            }
+            catch
+            {
+                convertedAmount = 0; // You can log error if needed
+            }
+        }
+
+        private async Task OnFromCurrencyChanged(ChangeEventArgs e)
+        {
+            fromCurrency = e.Value?.ToString();
+            await ConvertAsync();
+        }
+
+        private async Task OnToCurrencyChanged(ChangeEventArgs e)
+        {
+            toCurrency = e.Value?.ToString();
+            await ConvertAsync();
+        }
+
+        private async Task OnAmountChanged(ChangeEventArgs e)
+        {
+            if (decimal.TryParse(e.Value?.ToString(), out var value))
+            {
+                _amount = value;
+                await ConvertAsync();
+            }
+        }
+
+        private async Task SwapCurrencies()
+        {
+            (fromCurrency, toCurrency) = (toCurrency, fromCurrency);
+            await ConvertAsync();
+        }
+
+        private class ExchangeResponse
+        {
+            public bool Success { get; set; }
+            public decimal Result { get; set; }
         }
     }
 }
