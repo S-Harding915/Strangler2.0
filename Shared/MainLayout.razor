@@ -1,22 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
 
-<MudThemeProvider IsDarkMode="true" Theme="MyCustomTheme" />
+<MudThemeProvider IsDarkMode=true Theme="MyCustomTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
-<MudSnackbarProvider />
 
+<MudLayout>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
-
-<div class="page">
-    <main>
-        <MudLayout>
-            <MudMainContent>
-                @Body
-            </MudMainContent>
-        </MudLayout>
-    </main>
-</div>
 
 
 

@@ -8,21 +8,17 @@ namespace Strangler2._0.Shared
         {
             PaletteLight = new PaletteLight()
             {
-                Primary = "#0b2507",
+                Primary = "#0f0f0f",
                 Secondary = Colors.Green.Accent4,
                 AppbarBackground = Colors.Red.Default,
             },
 
             PaletteDark = new PaletteDark()
             {
-                Primary = "#0b2507",
-            },
-
-            LayoutProperties = new LayoutProperties()
-            {
-                DrawerWidthLeft = "260px",
-                DrawerWidthRight = "300px"
+                Primary = "#0f0f0f",
             }
+
+            
         };
     }
 }
