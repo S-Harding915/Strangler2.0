@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using Strangler2._0.Context;
 using Strangler2._0.Data;
 
 
@@ -16,6 +18,13 @@ namespace Strangler2._0
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddMudServices();
 
+         
+
+            //dbcontext injection
+            builder.Services.AddDbContextFactory<BudgetDbContext>(options =>
+            {
+                options.UseSqlServer("Server=LAPTOP-JTLV7VPG;Database=budget;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;Encrypt=True; Integrated Security=true");
+            });
 
             var app = builder.Build();
 
