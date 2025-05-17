@@ -1,0 +1,26 @@
+﻿@inject MudDialogInstance MudDialog
+
+<MudDialog MaxWidth="MaxWidth.Small" FullWidth="true" Class="edit-budget-dialog">
+    <DialogContent>
+        <MudTextField @bind-Value="_inputValue"
+                      Label="Enter Value..."
+                      Variant="Variant.Outlined"
+                      Immediate="true"
+                      Class="mb-4"
+                      Adornment="Adornment.None"
+                      InputType="InputType.Number"
+                      OnKeyDown="HandleKeyDown"
+                      Style="width: 100%;" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Submit"
+                   Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   Style="background-color: #0d260d; color: white;">
+            Enter
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+  
